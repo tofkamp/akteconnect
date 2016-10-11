@@ -1,0 +1,108 @@
+{
+    "connectfromto": {
+        "d769f1a3-6f9e-f371-90a9-00b00ff8d773": "Huwelijk|1922-5-20|#Antje|||Benedictus|Moedervandebruidegom|Person6||||||Vrouw||#Berend|Johannes||Iedema|Vadervandebruidegom|Person5||||||Man||#Fintje|||Douna|Bruid|Person1|23 jaar||Bergum (Tietjerksteradeel)|||Vrouw||#Aaltje|Sytzes||Andringa|Moedervandebruid|Person3||||||Vrouw||#Marten|Hendriks||Douna|Vadervandebruid|Person2||||||Man||#Dictus|||Iedema|Bruidegom|Person4|25 jaar||Hardegarijp (Tietjerksteradeel)|||Man||",
+        "e734d27e-a994-583f-7558-0d3b0db0b184": "Geboorte|1895-8-10|#Antje|||Benedictus|Moeder|Person1||||||Vrouw||#Dictus|||Iedema|Kind|Person3||1895-8-8||||Man||#Berend|Johannes||Iedema|Vader|Person2||||||Man||",
+        "568caff3-7ccb-6dc5-b440-2487f880ee0e": "Geboorte|1899-1-24|#Antje|||Benedictus|Moeder|Person1||||||Vrouw||#Grietje|||Iedema|Kind|Person3||1899-1-22||||Vrouw||#Berend|Johannes||Iedema|Vader|Person2||||||Man||",
+        "9b8a585e-09ce-11e5-9271-13e3142c5f89": "Geboorte|1912-7-22|#Jeltje|||Iedema|Kind|Person1||1912-7-21||||Vrouw||#Antje|||Benedictus|Moeder|Person3||||||Vrouw||#Berend Johannes|||Iedema|Vader|Person2||||||Man||",
+        "9b961f90-09ce-11e5-ad92-ff6315953bd4": "Geboorte|1908-1-16|#Aaltje|||Iedema|Kind|Person1||1908-1-14||||Vrouw||#Berend Johannes|||Iedema|Vader|Person3||||||Man||#Antje|||Benedictus|Moeder|Person2||||||Vrouw||",
+        "352d1bb6-ff1e-fede-2a31-bb6ca552dbac": "Huwelijk|1919-11-1|#Berend|Johannes||Iedema|Vadervandebruid|Person6||||||Man||#Antje|||Benedictus|Moedervandebruid|Person5||||||Vrouw||#Auke||de|Boer|Bruidegom|Person1|25 jaar||Boornbergum|||Man||#Grietje|||Iedema|Bruid|Person3|20 jaar||Hardegarijp (Tietjerksteradeel)|||Vrouw||#Thomas||de|Boer|Vadervandebruidegom|Person2||||||Man||#Geertje|||Bosma|Moedervandebruidegom|Person4||||||Vrouw||",
+        "e15c40e8-09d0-11e5-ba40-d7e0bbc06656": "Huwelijk|1932-10-24|#Gerben|||Dijkstra|Vadervandebruidegom|Person6||||||Man||#Jetske|||Breeuwsma|Moedervandebruidegom|Person5||||||Vrouw||#Antje|||Benedictus|Moedervandebruid|Person1||||||Vrouw||#Berend Johannes|||Iedema|Vadervandebruid|Person3||||||Man||#Aaltje|||Iedema|Bruid|Person2|24 jaar||Hardegarijp (Tietjerksteradeel)|||Vrouw||#Fedde|||Dijkstra|Bruidegom|Person4|27 jaar||Sneek|||Man||",
+        "ec2883b0-ee62-16b5-9276-c3cb05d37a05": "Overlijden|1895-8-29|#Dictus|Berends||Iedema|Overledene|Person1|19 dagen|||||Man||#Berend|Johannes||Iedema|Vader|Person3||||||Man||#Antje|||Benedictus|Moeder|Person2||||||Vrouw||",
+        "9b88cba6-09ce-11e5-8ee0-6b052a128d88": "Geboorte|1910-2-17|#Jan|||Iedema|Kind|Person1||1910-2-15||||Man||#Antje|||Benedictus|Moeder|Person3||||||Vrouw||#Berend Johannes|||Iedema|Vader|Person2||||||Man||",
+        "9b9479f6-09ce-11e5-a9da-c39c09da3044": "Geboorte|1905-10-6|#Berend Johannes|||Iedema|Vader|Person1||||||Man||#Antje|||Benedictus|Moeder|Person3||||||Vrouw||#Tjitske|||Iedema|Kind|Person2||1905-10-4||||Vrouw||",
+        "3a9b4aa8-b78c-51c9-bf5a-c6d628a868e0": "Overlijden|1918-12-3|#Kornelis|||Iedema|Overledene|Person1|17 jaar|||||Man||#Antje|||Benedictus|Moeder|Person3||||||Vrouw||#Berend|Johannes||Iedema|Vader|Person2||||||Man||",
+        "550bda49-96b0-c589-3c26-b15097ad2590": "Overlijden|1918-11-29|#Antje|||Benedictus|Moeder|Person1||||||Vrouw||#Wybe|||Iedema|Overledene|Person3|15 jaar|||||Man||#Berend|Johannes||Iedema|Vader|Person2||||||Man||",
+        "ea518842-990b-469a-755c-a33d1a60bccd": "Geboorte|1900-12-21|#Kornelis|||Iedema|Kind|Person1||1900-12-19||||Man||#Antje|||Benedictus|Moeder|Person3||||||Vrouw||#Berend|Johannes||Iedema|Vader|Person2||||||Man||",
+        "9b928218-09ce-11e5-a556-7b58831806fb": "Geboorte|1903-2-28|#Antje|||Benedictus|Moeder|Person1||||||Vrouw||#Berend Johannes|||Iedema|Vader|Person3||||||Man||#Wybe|||Iedema|Kind|Person2||1903-2-26||||Man||",
+        "00e7534d-538a-bc2a-0cb4-90c348f7db83": "Geboorte|1896-10-31|#Antje|||Benedictus|Moeder|Person1||||||Vrouw||#Berend|Johannes||Iedema|Vader|Person3||||||Man||#Dictus|||Iedema|Kind|Person2||1896-10-30||||Man||",
+        "f47e591c-c61a-8152-6cbe-2ad0cc9dab07": "Overlijden|1918-11-29|#Antje|||Benedictus|Moeder|Person1||||||Vrouw||#Rindert|||Iedema|Overledene|Person3|4 jaar|||||Man||#Berend|Johannes||Iedema|Vader|Person2||||||Man||"
+    },
+    "achternaambruid": "benedictus",
+    "connectto": {
+        "856e5611-da06-088b-b855-48960b2a38d2": "Huwelijk|1895-3-16|#Berend|Johannes||Iedema|Bruidegom|Person6|37 jaar||Eestrum|||Man||#Dictus|Jans||Benedictus|Vadervandebruid|Person5||||||Man||#Grietje|Kornelis||Gerritsma|Moedervandebruid|Person1||||||Vrouw||#Antje|||Benedictus|Bruid|Person3|24 jaar||Rottevalle, gemeente Achtkarspelen|||Vrouw||#Johannes|Wybes||Iedema|Vadervandebruidegom|Person2||||||Man||#Sipkje|Sipkes||Fransbergen|Moedervandebruidegom|Person4||||||Vrouw||"
+    },
+    "connections": [
+        [
+            "Geboorte",
+            "ea518842-990b-469a-755c-a33d1a60bccd",
+            "856e5611-da06-088b-b855-48960b2a38d2"
+        ],
+        [
+            "Overlijden",
+            "550bda49-96b0-c589-3c26-b15097ad2590",
+            "9b928218-09ce-11e5-a556-7b58831806fb"
+        ],
+        [
+            "Bruid",
+            "352d1bb6-ff1e-fede-2a31-bb6ca552dbac",
+            "568caff3-7ccb-6dc5-b440-2487f880ee0e"
+        ],
+        [
+            "Bruidegom",
+            "d769f1a3-6f9e-f371-90a9-00b00ff8d773",
+            "00e7534d-538a-bc2a-0cb4-90c348f7db83"
+        ],
+        [
+            "Geboorte",
+            "9b9479f6-09ce-11e5-a9da-c39c09da3044",
+            "856e5611-da06-088b-b855-48960b2a38d2"
+        ],
+        [
+            "Geboorte",
+            "e734d27e-a994-583f-7558-0d3b0db0b184",
+            "856e5611-da06-088b-b855-48960b2a38d2"
+        ],
+        [
+            "Geboorte",
+            "9b88cba6-09ce-11e5-8ee0-6b052a128d88",
+            "856e5611-da06-088b-b855-48960b2a38d2"
+        ],
+        [
+            "Geboorte",
+            "9b928218-09ce-11e5-a556-7b58831806fb",
+            "856e5611-da06-088b-b855-48960b2a38d2"
+        ],
+        [
+            "Bruid",
+            "e15c40e8-09d0-11e5-ba40-d7e0bbc06656",
+            "9b961f90-09ce-11e5-ad92-ff6315953bd4"
+        ],
+        [
+            "Overlijden",
+            "f47e591c-c61a-8152-6cbe-2ad0cc9dab07",
+            "856e5611-da06-088b-b855-48960b2a38d2"
+        ],
+        [
+            "Geboorte",
+            "9b961f90-09ce-11e5-ad92-ff6315953bd4",
+            "856e5611-da06-088b-b855-48960b2a38d2"
+        ],
+        [
+            "Geboorte",
+            "00e7534d-538a-bc2a-0cb4-90c348f7db83",
+            "856e5611-da06-088b-b855-48960b2a38d2"
+        ],
+        [
+            "Overlijden",
+            "ec2883b0-ee62-16b5-9276-c3cb05d37a05",
+            "e734d27e-a994-583f-7558-0d3b0db0b184"
+        ],
+        [
+            "Overlijden",
+            "3a9b4aa8-b78c-51c9-bf5a-c6d628a868e0",
+            "ea518842-990b-469a-755c-a33d1a60bccd"
+        ],
+        [
+            "Geboorte",
+            "9b8a585e-09ce-11e5-9271-13e3142c5f89",
+            "856e5611-da06-088b-b855-48960b2a38d2"
+        ],
+        [
+            "Geboorte",
+            "568caff3-7ccb-6dc5-b440-2487f880ee0e",
+            "856e5611-da06-088b-b855-48960b2a38d2"
+        ]
+    ],
+    "connectfrom": {},
+    "achternaambruidegom": "iedema"
+}
