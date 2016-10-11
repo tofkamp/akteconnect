@@ -12,15 +12,19 @@ If you want to create LOD files, use allefriezen.py
 
 Run "allefriezen naar sqlite.py" to put all info into relational database (BurgelijkeStand1610.db)
 run "maakpuzzels.py" to create all *.puz files from the huwelijken.
-copy koppelleeg.db to koppel.db, in order to have a place to put the connections.
+Copy koppelleeg.db to koppel.db, in order to have a place to put the connections.
 Solve all puzzels with akteconnect.py
 
-With koppelstats.py you can see you progress, just for fun.
+With koppelstats.py you can see your progress, just for fun.
 
-Create empty persistant-ids.db file (see koppelhet4.py how to do this)
+In order to create LOD, the ids between runs must be persistant.
+Create empty persistant-ids.db file:
+sqlite3.exe persistant-ids.db
+DROP TABLE IF EXISTS persons;
+DROP TABLE IF EXISTS places;
+CREATE TABLE persons(personid text,id int);
+CREATE TABLE places(placeid text,id int);
 
 You can export the connections to Linked Open Data, or Gramps csv file (https://gramps-project.org/wiki/index.php?title=Gramps_4.2_Wiki_Manual_-_Manage_Family_Trees:_CSV_Import_and_Export)
 
-Running koppelhet4.py, will produce the files.
-
-
+Running koppelhet4.py, will produce the LOD and .csv file.
