@@ -297,7 +297,7 @@ class AkteSprite:
                 if self.eventtype == "Huwelijk":
                     pygame.draw.line(surface, self.linecolour2, src_rect.topright ,dest_rect.midbottom, LINETHICKNESS)
             
-    def to_json_string(self):
+    def to_json_string(self):          # old, not used anymore
         return json.dumps({"pos" : self.rect.topleft,
                            #"akteid" : self.akteid,
                            "aktestring" : self.aktestring,
@@ -306,7 +306,16 @@ class AkteSprite:
                            "allowconnectto" : self.allow_connect_to,
                            "allowconnectfrom2" : self.allow_connect_from2,
                            "allowconnectfrom" : self.allow_connect_from },separators=(',',':'),indent=4)
-
+    def to_json_struct(self):
+        return {"pos" : self.rect.topleft,
+                           #"akteid" : self.akteid,
+                           "aktestring" : self.aktestring,
+                           "connectedto" : self.connectedto,
+                           "connectedto2" : self.connectedto2,
+                           "allowconnectto" : self.allow_connect_to,
+                           "allowconnectfrom2" : self.allow_connect_from2,
+                           "allowconnectfrom" : self.allow_connect_from }
+    
     def from_json_dict(self,parsed_json):
         #parsed_json = json.loads(jsonstring)
         #self.akteid = parsed_json["akteid"]
@@ -448,8 +457,8 @@ class AkteCanvas:
             self.aktesprites[i].init(i,parsed_json["connectto"][i],True,False,None,None)     # lastnamebruidegom&bruid niet nodig wegens connectfrom == False
 
         # becaus pygame (and python 2) can't handle unicode stuf, normalize
-        self.lastnamebruidegom = self.lastnamebruidegom.encode('cp1252')
-        self.lastnamebruid = self.lastnamebruid.encode('cp1252')
+        #self.lastnamebruidegom = self.lastnamebruidegom.encode('cp1252')
+        #self.lastnamebruid = self.lastnamebruid.encode('cp1252')
 
         for i in parsed_json["connections"]:
             # i = [rol,src akte,dstn akte]
@@ -523,19 +532,15 @@ class AkteCanvas:
         """
         balk = pygame.Rect(rect.topleft,(0,rect.height))
         fp = open(filename,"wb")
-        fp.write('{}"lastnamebruidegom":"{}",\n"lastnamebruid":"{}",\n'.format("{",self.lastnamebruidegom,self.lastnamebruid))
-        fp.write('"aktesprites":{\n')
-        comma = ""
+        savestruct = { "lastnamebruidegom":self.lastnamebruidegom,"lastnamebruid":self.lastnamebruid,"aktesprites":{}}
         tel = 0
         for i in self.aktesprites:
             balk.width = rect.width * tel / len(self.aktesprites)
             tel += 1
-            fp.write('{}"{}":{}\n'.format(comma,i,self.aktesprites[i].to_json_string()))
-            comma = ","
+            savestruct["aktesprites"][i] = self.aktesprites[i].to_json_struct()
             pygame.draw.rect(DISPLAYSURF,GREEN,balk)
             pygame.display.update()
-            #pygame.time.wait(1000)
-        fp.write('}\n}\n')
+        json.dump(savestruct,fp,separators=(',',':'),indent=4)
         fp.close()
         pygame.draw.rect(DISPLAYSURF,GREEN,rect)
 
@@ -550,10 +555,6 @@ class AkteCanvas:
         self.aktesprites = {}
         for i in parsed_json["aktesprites"]:
             self.aktesprites[i] = AkteSprite(i)
-            #if i in preloads:
-            #    a = data.akte.akte(i)
-            #    a.load_from_string(preloads[i],i)
-            #    #parsed_json["aktesprites"][i]["aktestring"] = a.to_string()
             self.aktesprites[i].from_json_dict(parsed_json["aktesprites"][i])
         for i in parsed_json["aktesprites"]:
             self.aktesprites[i].update_line_colour(self.aktesprites)
@@ -598,7 +599,7 @@ class AkteCanvas:
         
     def set_caption(self):
         #print self.lastnamebruidegom + " - " + self.lastnamebruid
-        pygame.display.set_caption(self.lastnamebruidegom + " - " + self.lastnamebruid)
+        pygame.display.set_caption((self.lastnamebruidegom + " - " + self.lastnamebruid).encode('utf-8'))
     
     def draw(self,surface,viewport,hightlight_connect_from):
         """ Draw all akte sprite and lines between them on a surface
@@ -787,7 +788,7 @@ def akteconnect(filepath,filename):
         
         pygame.display.update()
         fpsClock.tick(FPS)
-    now = pygame.time.get_ticks()
+    #now = pygame.time.get_ticks()
     rect = pygame.Rect(0,0,DISPLAYSURF.get_width()*4/5,50)
     rect.move_ip(DISPLAYSURF.get_width()/10, DISPLAYSURF.get_height()/2 - 25)
     DISPLAYSURF.fill(BLACK,rect)
@@ -803,11 +804,11 @@ def akteconnect(filepath,filename):
     pygame.display.update()
     #pygame.time.wait(1000)
     #canvas.put_result("akteconnectserver.company.int")
-    canvas.save(filepath + '/' + canvas.lastnamebruidegom.encode('cp1252') + "-" + canvas.lastnamebruid.encode('cp1252') + ".ac",rect)
+    canvas.save(filepath + '/' + canvas.lastnamebruidegom + "-" + canvas.lastnamebruid + ".ac",rect)
     #pygame.draw.rect(DISPLAYSURF,GREEN,rect)
     DISPLAYSURF.fill(BACKGROUNDCOLOUR)
     pygame.display.update()
-    print "Afsluiten duurde",(pygame.time.get_ticks() - now)/1000.0,"seconden"
+    #print "Afsluiten duurde",(pygame.time.get_ticks() - now)/1000.0,"seconden"
 ############### main
 
 options = {}
