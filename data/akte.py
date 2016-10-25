@@ -303,9 +303,11 @@ class akte:
         if False:
             RELATIVESIGN = '\u2514'
             FAMILYSIGN = '\u2558'       # char 2517 is de dikke versie
+            RELATIONSIGN = '\u2723'
         else:
             RELATIVESIGN = "-"
             FAMILYSIGN = "="
+            RELATIONSIGN = "+"
         if self.eventtype == "Geboorte":
             kind = self.find_person_with_role("Kind")
             vader = self.find_person_with_role("Vader")
