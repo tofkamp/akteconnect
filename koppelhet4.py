@@ -20,9 +20,8 @@ import json
 import csv
 
 import data.akte
-import data.aktecache
 
-#NEWIDS = 10000000    # previuos unknown persons get ids above this number
+NEWIDS = 10000000    # previuos unknown persons get ids above this number
 # https://gramps-project.org/wiki/index.php?title=Gramps_4.2_Wiki_Manual_-_Manage_Family_Trees:_CSV_Import_and_Export
 
 con = sqlite3.connect('e:/BurgelijkeStand1610.db')
@@ -31,9 +30,10 @@ cur = con.cursor()
 
 #todo:  huwelijk vullen met akte + source ?,verwijder akte anders aktestring gebruiken
 # csv export in procedure
-PLACESURI = "http://data.kultuer.frl/personen/"
-PERSOONURI = "http://data.kultuer.frl/personen/"
-AKTESURI = "http://data.kultuer.frl/allefriezen/"
+BASEURI = "http://data.kultuer.frl/"
+PLACESURI = BASEURI + "personen/"
+PERSOONURI = BASEURI + "personen/"
+AKTESURI = BASEURI + "allefriezen/"
 
 def formattriple(uri):
     prefixes = {
@@ -93,7 +93,7 @@ class Places:
 
         self.grens is the border of already known, and previuos unknown places
         """
-        pcon = sqlite3.connect('persistant-ids.db')
+        pcon = sqlite3.connect('persistant-ids.db',uri=True)
         pcur = pcon.cursor()
         self.grens = 0
         for row in pcur.execute('SELECT placeid,id FROM places'):
@@ -164,7 +164,7 @@ class Individual:
     #,Sterfdatum,Sterfplaats,Overlijdensbron,Begrafenisdatum,Begraafplaats,Begrafenisbron,Opmerking".split(","),lineterminator='\n')
     
     def export_csv_people(self,dictwriter,identifier):
-        #self.from_akte_persoon(self.aktepersoon)    # of direct in init ?
+        """ write csv with attributes """
         self.add_attribute("Persoon","[I" + str(identifier) + ']')
         dictwriter.writerow(self.attributes)
         #self.attributes = {}
@@ -204,6 +204,7 @@ class Individual:
             outn3(fp,PERSOONURI + "I" + str(identifier),"owl:sameAs",AKTESURI + i.replace(':',''))
         
     def from_akte_persoon(self,aktepersoon):
+        """ create a person with info from a person on a akte """
         if aktepersoon.firstname:
             if aktepersoon.patronym:
                 self.add_attribute("Voornaam",aktepersoon.firstname + " " + aktepersoon.patronym)
@@ -234,6 +235,7 @@ class Individual:
             self.attributes[key] = value
     
     def merge_with(self,indi):
+        """ merge to individuals together . used for sameas """
         for key in indi.attributes:
             self.add_attribute(key,indi.attributes[key])
         # merge attributes ?
@@ -248,7 +250,7 @@ class Individuals:
         self.lijst = {}
         self.grens = 0
         self.persist_ids = {}
-        self.nextid = 10000000
+        self.nextid = 10000001
 
     def create_table(self,conn):
         """ not used, but for documentation of format """
@@ -259,7 +261,9 @@ class Individuals:
         
 
     def load_persist_ids(self):
-        pcon = sqlite3.connect('persistant-ids.db')
+        """ load all known persistant ids into memory
+        Search with python is a lot faster than with sqlite select statements """
+        pcon = sqlite3.connect('persistant-ids.db',uri=True)
         pcur = pcon.cursor()
         self.grens = 0
         for row in pcur.execute('SELECT personid,id FROM persons'):
@@ -268,6 +272,7 @@ class Individuals:
         pcon.close()
 
     def save_persist_ids(self):
+        """ write out new ids to be persistant in the next run """
         pcon = sqlite3.connect('persistant-ids.db')
         pcur = pcon.cursor()
         for i in self.persist_ids:
@@ -304,21 +309,16 @@ class Individuals:
         return self.nextid - 1
 
     def same_as(self,p1,p2):
-        #print("same as : p1 =",p1,"p2 =",p2)
-        #print(self.lijst[p1])
-        #print(self.lijst[p2])
+        """ make sure two individuals are the same,
+        keep the lowest number """
         p1 = self.normalize(p1)
         p2 = self.normalize(p2)
-        #print("p1 =",p1,"p2 =",p2)
-        #print(self.lijst[p1])
-        #print(self.lijst[p2])
         if p1 < p2:
             self.lijst[p1].merge_with(self.lijst[p2])
             self.lijst[p2] = p1
         if p1 > p2:
             self.lijst[p2].merge_with(self.lijst[p1])
             self.lijst[p1] = p2
-        
 
     def normalize(self,p1):
         while type(self.lijst[p1]) is int:
@@ -342,17 +342,19 @@ class Individuals:
                 print(self.lijst[i].aktepersoon)
 
     def export_to_csv(self,csvfile):
+        """ produce csv format for gramps """
         writer = csv.DictWriter(csvfile, fieldnames="Persoon,Achternaam,Voornaam,Roep,Achtervoegsel,Voorvoegsel,Titel,Geslacht,Geboortedatum,Geboorteplaats id,Geboortebron,doopdatum,doopplaats,Doopbron,Sterfdatum,Sterfplaats id,Overlijdensbron,Begrafenisdatum,Begraafplaats,Begrafenisbron,Opmerking".split(","),lineterminator='\n')
         writer.writeheader()
         for i in self.lijst:
-            if type(self.lijst[i]) is not int:
+            if i < 10000000 and type(self.lijst[i]) is not int:
                 self.lijst[i].export_csv_people(writer,i)
              
     def export_lod(self,fp):
+        """ output linked open data format with schema.org """
         for i in self.lijst:
-            if type(self.lijst[i]) is not int:
+            if i < 10000000 and type(self.lijst[i]) is not int:
                 self.lijst[i].export_lod(fp,i)
-                
+
 class Family:
     def __init__(self,individuals,man,vrouw,kind):
         self.vader = individuals.new_individual(man)
@@ -377,7 +379,7 @@ class Node:
 class Marriage:
     last_id = 1
     def __init__(self,eventdate = None,eventplace = None):
-        self.children = []
+        self.children = []     # array of children id numbers
         self.eventdate = eventdate
         
         self.eventplace = places.register(eventplace)
@@ -403,28 +405,47 @@ class Marriage:
 
     def export_csv_children(self,dictwriter):
         for child in self.children:
-            c = child
-                  
-            row = { "Gezin" : self.get_id(), "Kind" : "I"+str(child) }
-            dictwriter.writerow(row)
+            if child < 10000000:
+                row = { "Gezin" : self.get_id(), "Kind" : "I"+str(child) }
+                dictwriter.writerow(row)
 
     def export_csv_marriage(self,dictwriter,man,vrouw):
-        row = { "Huwelijk" : self.get_id(), "Echtgenoot" : "I"+str(man), "Echtgenote" : "I"+str(vrouw),"Locatie id":"P"+str(self.eventplace),"Datum":self.eventdate }
-        #print(row)
-        dictwriter.writerow(row)
+        row = { "Huwelijk" : self.get_id() }
+        if self.eventplace:
+            row["Locatie id"] = "P"+str(self.eventplace)
+        if self.eventdate:
+            row["Datum"] = self.eventdate
+        if man < 10000000 or vrouw < 10000000:
+            if man < 10000000:
+                row["Echtgenoot"] = "I"+str(man)
+            if vrouw < 10000000:
+                row["Echtgenote"] = "I"+str(vrouw)
+            dictwriter.writerow(row)
 
     def export_lod(self,fp,man,vrouw):
-        outn3(fp,PERSOONURI + "I" + str(man),"schema:spouse",PERSOONURI + "I" + str(vrouw))
-        outn3(fp,PERSOONURI + "I" + str(vrouw),"schema:spouse",PERSOONURI + "I" + str(man))
+        if man < 10000000 and vrouw < 10000000:
+            outn3(fp,PERSOONURI + "I" + str(man),"schema:spouse",PERSOONURI + "I" + str(vrouw))
+            outn3(fp,PERSOONURI + "I" + str(vrouw),"schema:spouse",PERSOONURI + "I" + str(man))
         for child in self.children:
-            outn3(fp,PERSOONURI + "I" + str(man),"schema:children",PERSOONURI + "I" + str(child))
-            outn3(fp,PERSOONURI + "I" + str(vrouw),"schema:children",PERSOONURI + "I" + str(child))
-            outn3(fp,PERSOONURI + "I" + str(child),"schema:parent",PERSOONURI + "I" + str(man))
-            outn3(fp,PERSOONURI + "I" + str(child),"schema:parent",PERSOONURI + "I" + str(vrouw))
+            if child < 10000000:
+                if man < 10000000:
+                    outn3(fp,PERSOONURI + "I" + str(man),"schema:children",PERSOONURI + "I" + str(child))
+                    outn3(fp,PERSOONURI + "I" + str(child),"schema:parent",PERSOONURI + "I" + str(man))
+                if vrouw < 10000000:
+                    outn3(fp,PERSOONURI + "I" + str(vrouw),"schema:children",PERSOONURI + "I" + str(child))
+                    outn3(fp,PERSOONURI + "I" + str(child),"schema:parent",PERSOONURI + "I" + str(vrouw))
 
+    def normalize(self,individuals):
+        normchilds = []
+        for child in self.children:
+            normchild = individuals.normalize(child)
+            if normchild not in normchilds:
+                normchilds.append(normchild)
+        self.children = normchilds
+        
 class Marriages:
     def __init__(self):
-        self.lijst = {}
+        self.lijst = {}          # double index containig Marriage() objects
 
     def add_marriage(self,man,vrouw,individuals,eventdate = None,eventplace = None):     # aktestring???
         man = individuals.normalize(man)
@@ -472,6 +493,11 @@ class Marriages:
         for man in self.lijst:
             for vrouw in self.lijst[man]:
                 self.lijst[man][vrouw].export_lod(fp,man,vrouw)
+
+    def normalize(self,individuals):
+        for man in self.lijst:
+            for vrouw in self.lijst[man]:
+                self.lijst[man][vrouw].normalize(individuals)
         
 class Nodes:
     def __init__(self):
@@ -524,19 +550,20 @@ class Nodes:
         #print("done")
 
         self.individuals.renumber_ids()
+        self.marriages.normalize(self.individuals)
         self.individuals.save_persist_ids()
 
 print("Preloading akten")
 #fp = open("bs1608.json","r")
 #preloadaktes = json.load(fp)
 #fp.close()
-preload = data.aktecache.aktecache(cur)
+preload = data.akte.aktecache(cur)
 preloadaktes = preload.aktes
 cur.close()
 print("Loaded")
 nodes = Nodes()
 
-koppel = sqlite3.connect('koppel.db')
+koppel = sqlite3.connect('koppelmaster.db',uri=True)
 koppelcursor = koppel.cursor()
 nodes.lees_koppelingen(koppelcursor)
 koppel.close()

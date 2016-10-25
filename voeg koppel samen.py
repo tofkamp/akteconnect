@@ -18,7 +18,7 @@
 import sqlite3
 
 # read master database
-koppel = sqlite3.connect('koppel.db')
+koppel = sqlite3.connect('koppelmaster.db')
 koppelcursor = koppel.cursor()
 
 koppels = {}
@@ -26,9 +26,9 @@ for row in koppelcursor.execute('SELECT rol,srcakte,dstnakte,wie,timestamp FROM 
     koppels[(row[0],row[1])] = (row[2],row[3],row[4])
 
 # read other
-#kopsamen = sqlite3.connect('e:/akteconnect/koppel.db')
+kopsamen = sqlite3.connect('e:/akteconnect/koppel.db')
 #kopsamen = sqlite3.connect('e:/akteconnect/koppeltr10038.db')
-kopsamen = sqlite3.connect('koppeljan2.db')
+#kopsamen = sqlite3.connect('e:/koppeljan3.db')
 kopsamcur = kopsamen.cursor()
 replacecount = 0
 doublecount = 0
