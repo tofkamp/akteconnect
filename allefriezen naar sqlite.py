@@ -15,6 +15,7 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
 import xml.etree.ElementTree as ET
 import time
 import sqlite3
@@ -40,9 +41,12 @@ def getelement(elem,relpath):
         elem = x[0]
     return elem.text
 
+idsdone = {}        # array van alle akte ids die we al gehad hebben
+                    # dit is nodig omdat er tijdens de dump modificaties plaats vinden, waardoor akten twee keer in de dump voorkomen
+                    # programma foutje van picturea
+                    
 def record(elem):
-    # stel type vast
-    #print(elem)
+    global idsdone
     eventtype = getelement(elem,"{http://www.openarchives.org/OAI/2.0/}metadata|{http://Mindbus.nl/A2A}A2A|{http://Mindbus.nl/A2A}Event|{http://Mindbus.nl/A2A}EventType")
     if False:
         source = elem.find("{http://www.openarchives.org/OAI/2.0/}metadata").find("{http://Mindbus.nl/A2A}A2A").find("{http://Mindbus.nl/A2A}Source")
@@ -56,6 +60,14 @@ def record(elem):
                     eventtype = v
        
     subject = getelement(elem,"{http://www.openarchives.org/OAI/2.0/}header|{http://www.openarchives.org/OAI/2.0/}identifier")
+    if subject in idsdone:    # hebben we deze akte al gehad (foutje in dump prog van picturea)
+        # zo ja, gooi eerdere akte weg
+        fp.execute('''DELETE from akte where recordid = ?''',(subject,))
+        fp.execute('''DELETE from aktepersoon where recordid = ?''',(subject,))
+        print('Akte',subject,'staat er meer dan 1 keer in de dump')
+    else:
+        idsdone[subject] = 1
+        
     eventplace = getelement(elem,"{http://www.openarchives.org/OAI/2.0/}metadata|{http://Mindbus.nl/A2A}A2A|{http://Mindbus.nl/A2A}Event|{http://Mindbus.nl/A2A}EventPlace|{http://Mindbus.nl/A2A}Place")
     dag = getelement(elem,"{http://www.openarchives.org/OAI/2.0/}metadata|{http://Mindbus.nl/A2A}A2A|{http://Mindbus.nl/A2A}Event|{http://Mindbus.nl/A2A}EventDate|{http://Mindbus.nl/A2A}Day")
     maand = getelement(elem,"{http://www.openarchives.org/OAI/2.0/}metadata|{http://Mindbus.nl/A2A}A2A|{http://Mindbus.nl/A2A}Event|{http://Mindbus.nl/A2A}EventDate|{http://Mindbus.nl/A2A}Month")
@@ -173,11 +185,11 @@ class Person:
         return False
 
 files = (
-	"frl_a2a_bs_o-201610.xml"
-	,"frl_a2a_bs_h-201610.xml"
-	,"frl_a2a_bs_g-201610.xml")
+	"frl_a2a_bs_o-201611.xml"
+	,"frl_a2a_bs_h-201611.xml"
+	,"frl_a2a_bs_g-201611.xml")
 
-conn = sqlite3.connect('c:/akteconnect/BurgelijkeStand1610.db')
+conn = sqlite3.connect('e:/BurgelijkeStand1611.db')
 #conn = sqlite3.connect(':memory:')
 fp = conn.cursor()
 
@@ -199,7 +211,7 @@ for file in files:
     print("Bezig met",file)
     starttime = time.time() 
     recordcount = 0
-    context = ET.iterparse('C:/users/Thofkamp/Downloads/resources/'+file)
+    context = ET.iterparse('C:/users/tjibbe/Desktop/resources/'+file)
     #context = ET.iterparse('resources/'+file)
     # turn it into an iterator
     context = iter(context)
@@ -218,9 +230,9 @@ for file in files:
 # Save (commit) the changes
 conn.commit()
 for row in fp.execute('SELECT count(*) FROM aktepersoon'):
-    print(row[0])
+    print(row[0])    #5740379 in 11-2016
 for row in fp.execute('SELECT count(*) FROM akte'):
-    print(row[0])
+    print(row[0])    #2027215 in 11-2016
 
 # We can also close the connection if we are done with it.
 # Just be sure any changes have been committed or they will be lost.

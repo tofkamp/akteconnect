@@ -200,6 +200,8 @@ class Individual:
             outn3(fp,PERSOONURI + "I" + str(identifier),"schema:birthDate",self.aktepersoon.birthdate)
         if self.aktepersoon.deathdate:
             outn3(fp,PERSOONURI + "I" + str(identifier),"schema:deathDate",self.aktepersoon.deathdate)
+        if self.aktepersoon.profession:
+            outn3(fp,PERSOONURI + "I" + str(identifier),"schema:jobTitle",self.aktepersoon.profession)
         for i in self.aktepersonen:
             outn3(fp,PERSOONURI + "I" + str(identifier),"owl:sameAs",AKTESURI + i.replace(':',''))
         
@@ -229,6 +231,8 @@ class Individual:
             self.add_attribute("Geboortedatum",aktepersoon.birthdate)
         if aktepersoon.deathdate:
             self.add_attribute("Sterfdatum",aktepersoon.deathdate)
+        #if aktepersoon.profession:
+        #    self.add_attribute("jobTitle",aktepersoon.profession)
 
     def add_attribute(self,key,value):
         if value:

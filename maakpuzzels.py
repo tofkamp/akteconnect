@@ -27,7 +27,7 @@ import data.aktecache
 
 # koppelcursor.execute('''CREATE TABLE koppel (rol text,srcakte text,dstnakte text)''')
 
-con = sqlite3.connect('e:/BurgelijkeStand1610.db')
+con = sqlite3.connect('e:/BurgelijkeStand1611.db')
 con.isolation_level = None
 cur = con.cursor()
 
@@ -257,7 +257,7 @@ for akteid in preload.aktes:
     puzs.add_akte_to_puzzels(akte)
 
 print("Adding connections")
-puzs.add_connections('koppel.db')
+puzs.add_connections('koppelmaster.db')
 
 print("Counting")
 puzs.statistics()
