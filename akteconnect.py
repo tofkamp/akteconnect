@@ -56,7 +56,7 @@ BLUE         = (  0,   0, 155)
 BRIGHTYELLOW = (255, 255,   0)
 YELLOW       = (155, 155,   0)
 DARKGRAY     = ( 40,  40,  40)
-
+#https://en.wikipedia.org/wiki/Color_Graphics_Adapter
 pygame.init()
 
 #DISPLAYSURF = pygame.display.set_mode((950,608),pygame.RESIZABLE)

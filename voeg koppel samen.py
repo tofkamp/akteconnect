@@ -28,7 +28,7 @@ for row in koppelcursor.execute('SELECT rol,srcakte,dstnakte,wie,timestamp FROM 
 # read other
 kopsamen = sqlite3.connect('e:/akteconnect/koppel.db')
 #kopsamen = sqlite3.connect('e:/akteconnect/koppeltr10038.db')
-#kopsamen = sqlite3.connect('e:/koppeljan3.db')
+#kopsamen = sqlite3.connect('e:/koppejan5l.db')
 kopsamcur = kopsamen.cursor()
 replacecount = 0
 doublecount = 0
